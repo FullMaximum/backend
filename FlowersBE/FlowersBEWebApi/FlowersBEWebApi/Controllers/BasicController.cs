@@ -1,4 +1,5 @@
 ﻿using FlowersBEWebApi.Entities;
+using FlowersBEWebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlowersBEWebApi.Controllers
@@ -7,7 +8,14 @@ namespace FlowersBEWebApi.Controllers
     [ApiController]
     public class BasicController : ControllerBase
     {
+        private readonly IBasicService _basicService;
+
+        public BasicController(IBasicService basicService)
+        {
+            _basicService = basicService;
+        }
         private static List<UserBase> _users = new();
+
         [HttpGet("getUser")]
         public async Task<ActionResult<UserBase>> Get()
         {
@@ -20,6 +28,12 @@ namespace FlowersBEWebApi.Controllers
             };
             _users.Add(user);
             return Ok(user);
+        }
+
+        [HttpGet("getAll")]
+        public async Task<ActionResult<List<UserBase>>> GetAll()
+        {
+            return Ok(_basicService.GetUsers());
         }
 
         [HttpPost("newUser")]
