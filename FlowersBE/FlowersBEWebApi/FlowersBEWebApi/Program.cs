@@ -1,37 +1,19 @@
 global using FlowersBEWebApi.Data;
 global using Microsoft.EntityFrameworkCore;
-using FlowersBEWebApi.Repositories;
-using FlowersBEWebApi.Services;
-using SimpleInjector;
-using SimpleInjector.Lifestyles;
+using FlowersBEWebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Dependency injection with SimpleInjector
-
-var container = new Container();
-container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-container.Register<DataContext>(() =>
-{
-    var options = new DbContextOptionsBuilder<DataContext>();
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-    return new DataContext(options.Options);
-});
-container.Register<IBasicRepository, BasicRepository>(Lifestyle.Scoped);
-container.Register<IBasicService, BasicService>(Lifestyle.Scoped);
-
-container.Verify();
+ObjectContainer.Init(builder);
 
 var app = builder.Build();
+
+ObjectContainer.VerifyApp(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

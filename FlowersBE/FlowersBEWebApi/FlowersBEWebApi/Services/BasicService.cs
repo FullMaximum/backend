@@ -11,9 +11,9 @@ namespace FlowersBEWebApi.Services
         {
             _basicRepository = basicRepository;
         }
-        public List<UserBase> GetUsers()
-        {
-            return _basicRepository.GetAll();
-        }
+
+        public void Add(UserBase user) => _basicRepository.Add(user);
+
+        public List<UserBase> GetUsers() => _basicRepository.GetAll();
     }
 }

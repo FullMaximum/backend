@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+
+# appsettings for conn strings
+appsettings.json
+
+
 # User-specific files
 *.rsuser
 *.suo
