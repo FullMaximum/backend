@@ -16,20 +16,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
+      
       - name: Adding app settings
         uses: microsoft/variable-substitution@v1
         with:
           files: 'FlowersBE/FlowersBEWebApi/FlowersBEWebApi/appsettings.json'
         env:
           ConnectionStrings.Fullmaximum: ${{ secrets.DATABASE_CONNECTION_STRING }}
-
+          
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
           include-prerelease: true
-
+          
       - name: Build with dotnet
         run: dotnet build FlowersBE/FlowersBE.sln --configuration Release
 
