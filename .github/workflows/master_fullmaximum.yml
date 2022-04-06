@@ -19,10 +19,9 @@ jobs:
       - name: Adding app settings
         uses: microsoft/variable-substitution@v1
         with:
-          files: '${{env.DOTNET_ROOT}}/FlowersBE/FlowersBEWebApi/FlowersBEWebApi/appsettings.json'
+          files: 'FlowersBE/FlowersBEWebApi/FlowersBEWebApi/appsettings.json'
         env:
-          ConnectionStrings.Default: ${{ secrets.DATABASE_CONN_STRING }}
-          App.ServerRootAddress: ${{ env.SERVER_ROOT_ADDRESS }}
+          ConnectionStrings.DefaultConnection: ${{ secrets.DATABASE_CONN_STRING }}
 
 
       - name: Set up .NET Core
