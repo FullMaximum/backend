@@ -31,9 +31,6 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: true
           
-      - name: test
-        run: echo ${{secrets.DATABASE_CONNECTION_STRING }} | sed 's/./& /g'
-
       - name: Build with dotnet
         run: dotnet build FlowersBE/FlowersBE.sln --configuration Release
 
