@@ -21,7 +21,7 @@ jobs:
         with:
           files: 'FlowersBE/FlowersBEWebApi/FlowersBEWebApi/appsettings.json'
         env:
-          ConnectionStrings.Default: ${{ secrets.DATABASE_CONN_STRING }}
+          ConnectionStrings.DefaultConnection: ${{ secrets.DATABASE_CONN_STRING }}
 
 
       - name: Set up .NET Core
