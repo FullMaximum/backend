@@ -15,6 +15,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Adding app settings
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '${{env.DOTNET_ROOT}}/FlowersBE/FlowersBEWebApi/FlowersBEWebApi/appsettings.json'
+        env:
+          ConnectionStrings.Default: ${{ secrets.DATABASE_CONN_STRING }}
+          App.ServerRootAddress: ${{ env.SERVER_ROOT_ADDRESS }}
+
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
