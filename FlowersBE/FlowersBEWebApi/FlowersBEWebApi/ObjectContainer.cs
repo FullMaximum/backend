@@ -19,7 +19,7 @@ namespace FlowersBEWebApi
                 options.AddAspNetCore().AddControllerActivation();
             });
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = builder.Configuration.GetConnectionString("Fullmaximum");
             _container.Register(() =>
             {
                 var options = new DbContextOptionsBuilder<DataContext>();
