@@ -13,8 +13,6 @@ using (SentrySdk.Init(o =>
 
     var builder = WebApplication.CreateBuilder(args);
 
-    SentrySdk.CaptureMessage(builder.Configuration.GetConnectionString("Fullmaximum"));
-
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
