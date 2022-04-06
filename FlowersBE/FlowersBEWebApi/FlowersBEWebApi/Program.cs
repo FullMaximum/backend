@@ -29,14 +29,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-
-
-//builder.Services.AddDbContext<DataContext>(options =>
-//{
-//    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-//});
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
-//builder.Services.AddScoped<IBasicRepository, BasicRepository>();
-//builder.Services.AddScoped<IBasicService, BasicService>();
