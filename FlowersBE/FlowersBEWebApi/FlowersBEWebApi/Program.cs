@@ -13,8 +13,7 @@ using (SentrySdk.Init(o =>
 
     var builder = WebApplication.CreateBuilder(args);
 
-    Console.WriteLine("Connection string:");
-    Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
+    SentrySdk.CaptureMessage(builder.Configuration.GetConnectionString("DefaultConnection"));
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
