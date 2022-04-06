@@ -41,8 +41,8 @@ namespace FlowersBEWebApi.Controllers
         {
             if (user == null)
                 return BadRequest("User is null");
-            _users.Add(user);
-            return Ok(_users);
+            _basicService.Add(user);
+            return Ok("Created");
         }
     }
 }
