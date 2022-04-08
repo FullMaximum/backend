@@ -9,10 +9,12 @@ namespace FlowersBEWebApi.Controllers
     public class BasicController : ControllerBase
     {
         private readonly IBasicService _basicService;
+        private readonly ILogger<BasicController> _logger;
 
-        public BasicController(IBasicService basicService)
+        public BasicController(IBasicService basicService, ILogger<BasicController> logger)
         {
             _basicService = basicService;
+            _logger = logger;
         }
         private static List<UserBase> _users = new();
 
@@ -33,6 +35,7 @@ namespace FlowersBEWebApi.Controllers
         [HttpGet("getAll")]
         public async Task<ActionResult<List<UserBase>>> GetAll()
         {
+            _logger.LogInformation($"We got request to {nameof(BasicController)}");
             return Ok(_basicService.GetUsers());
         }
 
