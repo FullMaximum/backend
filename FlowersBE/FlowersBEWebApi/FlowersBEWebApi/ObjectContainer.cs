@@ -1,5 +1,6 @@
 ﻿using FlowersBEWebApi.Repositories;
 using FlowersBEWebApi.Services;
+using Serilog.Core;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 
@@ -30,7 +31,7 @@ namespace FlowersBEWebApi
             RegisterServices();
         }
 
-        public static void VerifyApp(WebApplication application)
+        public static void VerifyApp(WebApplication application, Logger logger)
         {
             application.Services.UseSimpleInjector(_container);
 
@@ -40,7 +41,7 @@ namespace FlowersBEWebApi
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ObjectContainer] Verify: {ex}"); //need to change to logging later
+                logger.Error($"[ObjectContainer] Verify: {ex}");
                 throw;
             }
         }
