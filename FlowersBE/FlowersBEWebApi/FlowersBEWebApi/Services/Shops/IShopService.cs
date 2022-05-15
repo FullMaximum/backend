@@ -10,6 +10,7 @@ namespace FlowersBEWebApi.Services.Shops
         public void Add(ShopModel shop);
         public void Remove(ShopModel shop);
         public void Update(ShopModel shop);
+        public List<ShopModel> GetNewlyCreated(DateTime date);
 
     }
 }

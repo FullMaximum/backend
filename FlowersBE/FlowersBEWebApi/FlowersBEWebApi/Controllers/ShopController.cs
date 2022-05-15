@@ -119,6 +119,27 @@ namespace FlowersBEWebApi.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpGet("getNew/{date}")]
+        public async Task<ActionResult<List<ShopModel>>> GetNew(DateTime date)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetNew)} ({date})");
+                var shops = _shopService.GetNewlyCreated(date);
+                if (shops.Count == 0)
+                    return NoContent();
+                else
+                    return Ok(shops);
+
+                return StatusCode(200);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"{nameof(GetNew)} ({date}): ({e})");
+                return StatusCode(500);
+            }
+        }
     }
 }
 

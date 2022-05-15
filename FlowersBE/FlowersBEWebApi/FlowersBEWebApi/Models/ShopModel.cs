@@ -14,10 +14,12 @@
         public decimal DeliveryPrice { get; set; }
         public float DeliveryDistance { get; set; }
         public float Rating { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         public override string ToString()
         {
-            return $"{Id}, {Name}, {Phone}, {ImagePath}, {Description}, {Address}, {City}, {OpeningHour}, {ClosingHour}, {Rating}";
+            return $"{Id}, {Name}, {Phone}, {ImagePath}, {Description}, {Address}, {City}, {OpeningHour}, {ClosingHour}, {Rating}, {CreatedAt}, {UpdatedAt}";
         }
 
     }
