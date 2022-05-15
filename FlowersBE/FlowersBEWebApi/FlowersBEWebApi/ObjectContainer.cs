@@ -1,5 +1,9 @@
 ﻿using FlowersBEWebApi.Repositories;
+using FlowersBEWebApi.Repositories.Shops;
+using FlowersBEWebApi.Repositories.Flowers;
 using FlowersBEWebApi.Services;
+using FlowersBEWebApi.Services.Shops;
+using FlowersBEWebApi.Services.Flowers;
 using Serilog.Core;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
@@ -25,7 +29,7 @@ namespace FlowersBEWebApi
             {
                 var options = new DbContextOptionsBuilder<DataContext>();
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-                return new DataContext(options.Options);
+                return new DataContext(options.Options, builder.Configuration);
             }, Lifestyle.Scoped);
 
             RegisterServices();
@@ -50,9 +54,13 @@ namespace FlowersBEWebApi
         {
             //Repositories
             _container.Register<IBasicRepository, BasicRepository>(Lifestyle.Scoped);
+            _container.Register<IShopRepository, ShopRepository>(Lifestyle.Scoped);
+            _container.Register<IFlowerRepository, FlowersRepository>(Lifestyle.Scoped);
 
             //Services
             _container.Register<IBasicService, BasicService>(Lifestyle.Scoped);
+            _container.Register<IShopService, ShopService>(Lifestyle.Scoped);
+            _container.Register<IFlowersService, FlowersService>(Lifestyle.Scoped);
         }
 
         public static T GetInstance<T>() where T : class
