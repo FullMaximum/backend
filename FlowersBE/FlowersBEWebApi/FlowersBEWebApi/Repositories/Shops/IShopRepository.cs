@@ -1,6 +1,7 @@
 ﻿using System;
 using FlowersBEWebApi.Entities;
-namespace FlowersBEWebApi.Repositories
+
+namespace FlowersBEWebApi.Repositories.Shops
 {
 	public interface IShopRepository
 	{

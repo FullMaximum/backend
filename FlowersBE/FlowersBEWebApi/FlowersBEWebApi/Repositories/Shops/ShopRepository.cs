@@ -3,7 +3,7 @@ using FlowersBEWebApi.Entities;
 
 namespace FlowersBEWebApi.Repositories.Shops
 {
-	public class ShopRepository:IShopRepository
+	public class ShopRepository: IShopRepository
 	{
 		private readonly DataContext _context;
 
