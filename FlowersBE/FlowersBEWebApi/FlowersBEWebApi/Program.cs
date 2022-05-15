@@ -1,51 +1,50 @@
 global using FlowersBEWebApi.Data;
 global using Microsoft.EntityFrameworkCore;
-using FlowersBEWebApi.Repositories;
-using FlowersBEWebApi.Services;
-using SimpleInjector;
-using SimpleInjector.Lifestyles;
+using FlowersBEWebApi;
+using Sentry;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DataContext>(options =>
+using (SentrySdk.Init(o =>
 {
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-//Dependency injection with SimpleInjector
-
-//var container = new Container();
-//container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
-//container.Register<DbContext, DataContext>(Lifestyle.Scoped);
-//container.Register<IBasicRepository, BasicRepository>(Lifestyle.Scoped);
-//container.Register<IBasicService, BasicService>(Lifestyle.Scoped);
-
-//container.Verify();
-
-builder.Services.AddScoped<IBasicRepository, BasicRepository>();
-builder.Services.AddScoped<IBasicService, BasicService>();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+    o.Dsn = "https://c51dbab596cc4d09bdc25c910835aac9@o1187302.ingest.sentry.io/6307231";
+    o.Debug = true;
+    o.TracesSampleRate = 1.0;
+}))
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    var loggerConnStrings = "DefaultEndpointsProtocol=https;AccountName=fullmaximumstorage;AccountKey=D1yj+2eTqHooxc/nT5s2/O8uRaJUS8LCMXsxB2mBCLDsESLn50qYMLmLUnosnpcaj3J3B1N+GD89yG3mdrCbcg==;EndpointSuffix=core.windows.net";
+    var logger = new LoggerConfiguration()
+        .WriteTo.AzureBlobStorage(connectionString: loggerConnStrings, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
+        .CreateLogger();
+
+    builder.Logging.ClearProviders();
+    builder.Logging.AddSerilog(logger);
+
+    //Dependency injection with SimpleInjector
+    ObjectContainer.Init(builder);
+
+    var app = builder.Build();
+
+    ObjectContainer.VerifyApp(app, logger);
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
