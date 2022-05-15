@@ -1,4 +1,5 @@
 ﻿using FlowersBEWebApi.Repositories;
+using FlowersBEWebApi.Repositories.Shops;
 using FlowersBEWebApi.Services;
 using Serilog.Core;
 using SimpleInjector;
@@ -50,6 +51,7 @@ namespace FlowersBEWebApi
         {
             //Repositories
             _container.Register<IBasicRepository, BasicRepository>(Lifestyle.Scoped);
+            _container.Register<IShopRepository, ShopRepository>(Lifestyle.Scoped);
 
             //Services
             _container.Register<IBasicService, BasicService>(Lifestyle.Scoped);
