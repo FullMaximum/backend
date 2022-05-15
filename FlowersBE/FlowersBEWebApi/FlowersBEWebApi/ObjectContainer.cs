@@ -25,7 +25,7 @@ namespace FlowersBEWebApi
             {
                 var options = new DbContextOptionsBuilder<DataContext>();
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-                return new DataContext(options.Options);
+                return new DataContext(options.Options, builder.Configuration);
             }, Lifestyle.Scoped);
 
             RegisterServices();
