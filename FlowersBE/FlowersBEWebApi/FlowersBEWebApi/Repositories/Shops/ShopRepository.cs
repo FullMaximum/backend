@@ -18,6 +18,11 @@ namespace FlowersBEWebApi.Repositories.Shops
             _context.SaveChanges();
         }
 
+        public List<Shop> GetTop(float rating)
+        {
+            return _context.Shops.Where(shop => shop.Rating >= rating).ToList();
+        }
+
         public Shop Get(long id)
         {
             return _context.Shops.FirstOrDefault(shop => shop.Id == id);

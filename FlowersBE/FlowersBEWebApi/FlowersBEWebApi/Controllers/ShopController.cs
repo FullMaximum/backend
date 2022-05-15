@@ -32,7 +32,22 @@ namespace FlowersBEWebApi.Controllers
             }
         }
 
-        [HttpGet("get")]
+        [HttpGet("getTop/{rating}")]
+        public async Task<ActionResult<List<ShopModel>>> GetTop(float rating)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetTop)}");
+                return _shopService.GetTop(rating);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"{nameof(GetTop)}, {e}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet("get/{id}")]
         public async Task<ActionResult<ShopModel>> Get(long id)
         {
             try
