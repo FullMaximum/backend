@@ -29,5 +29,9 @@
 
   <ItemGroup>
     <None Remove="Sentry" />
+    <None Remove="Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enums\" />
   </ItemGroup>
 </Project>
