@@ -31,9 +31,13 @@
     <None Remove="Sentry" />
     <None Remove="Enums\" />
     <None Remove="Repositories\Shops\" />
+    <None Remove="Models\" />
+    <None Remove="Services\Shop\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Enums\" />
     <Folder Include="Repositories\Shops\" />
+    <Folder Include="Models\" />
+    <Folder Include="Services\ShopService\" />
   </ItemGroup>
 </Project>
