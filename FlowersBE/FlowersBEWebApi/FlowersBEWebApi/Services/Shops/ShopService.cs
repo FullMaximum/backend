@@ -69,6 +69,27 @@ namespace FlowersBEWebApi.Services.Shops
             
         }
 
+        public List<ShopModel> GetTop(float rating)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetTop)}");
+
+                var shopList = new List<ShopModel>();
+
+                _shopRepository.GetTop(rating).ForEach(shop => shopList.Add(ConvertToModel(shop)));
+
+                return shopList;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"{nameof(GetShops)}, {e}");
+
+                return null;
+            }
+
+        }
+
         public void Remove(ShopModel shop)
         {
             try
