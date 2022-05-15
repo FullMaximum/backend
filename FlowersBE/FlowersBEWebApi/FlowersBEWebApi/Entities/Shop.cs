@@ -15,6 +15,8 @@ namespace FlowersBEWebApi.Entities
         public string? ClosingHour { get; set; }
         public float Rating { get; set; }
         public ShopStatus Status { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
 }

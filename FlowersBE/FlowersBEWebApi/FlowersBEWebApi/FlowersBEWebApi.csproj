@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\ShopService\**" />
+    <Content Remove="Services\ShopService\**" />
+    <EmbeddedResource Remove="Services\ShopService\**" />
+    <None Remove="Services\ShopService\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -38,6 +45,5 @@
     <Folder Include="Enums\" />
     <Folder Include="Repositories\Shops\" />
     <Folder Include="Models\" />
-    <Folder Include="Services\ShopService\" />
   </ItemGroup>
 </Project>

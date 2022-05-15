@@ -99,6 +99,24 @@ namespace FlowersBEWebApi.Services.Shops
             }
         }
 
+        public List<ShopModel> GetNewlyCreated(DateTime date)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetNewlyCreated)} ({date})");
+                var shops = GetShops();
+                if (shops is null || shops.Count == 0)
+                    return new List<ShopModel>();
+                else
+                    return shops.Where(shop => shop.CreatedAt >= date).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(Update)} ({date}): ({ex})");
+                return new List<ShopModel>();
+            }
+        }
+
         private ShopModel ConvertToModel(Shop shop)
         {
             decimal deliveryPrice = 0;
@@ -117,7 +135,9 @@ namespace FlowersBEWebApi.Services.Shops
                 ClosingHour = shop.ClosingHour,
                 DeliveryPrice = deliveryPrice,
                 DeliveryDistance = deliveryDistance,
-                Rating = shop.Rating
+                Rating = shop.Rating,
+                CreatedAt = shop.CreatedAt,
+                UpdatedAt = shop.UpdatedAt,
             };
         }
 
@@ -133,8 +153,9 @@ namespace FlowersBEWebApi.Services.Shops
                 City = shopModel.City,
                 OpeningHour = shopModel.OpeningHour,
                 ClosingHour = shopModel.ClosingHour,
-                Rating = shopModel.Rating
-
+                Rating = shopModel.Rating,
+                CreatedAt = shopModel.CreatedAt,
+                UpdatedAt = shopModel.UpdatedAt,
             };
         }
     }
