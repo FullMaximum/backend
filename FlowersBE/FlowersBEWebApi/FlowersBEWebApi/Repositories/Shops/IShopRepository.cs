@@ -7,6 +7,8 @@ namespace FlowersBEWebApi.Repositories.Shops
 	{
 		public List<Shop> GetAll();
 
+		public List<Shop> GetTop(float rating);
+
 		public Shop Get(long id);
 
 		public void Add(Shop shop);
