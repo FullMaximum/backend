@@ -1,5 +1,7 @@
 ﻿using FlowersBEWebApi.Repositories;
+using FlowersBEWebApi.Repositories.Flowers;
 using FlowersBEWebApi.Services;
+using FlowersBEWebApi.Services.Flowers;
 using Serilog.Core;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
@@ -50,9 +52,11 @@ namespace FlowersBEWebApi
         {
             //Repositories
             _container.Register<IBasicRepository, BasicRepository>(Lifestyle.Scoped);
+            _container.Register<IFlowerRepository, FlowersRepository>(Lifestyle.Scoped);
 
             //Services
             _container.Register<IBasicService, BasicService>(Lifestyle.Scoped);
+            _container.Register<IFlowersService, FlowersService>(Lifestyle.Scoped);
         }
 
         public static T GetInstance<T>() where T : class
