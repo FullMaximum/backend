@@ -23,11 +23,8 @@ namespace FlowersBEWebApi.Controllers.Flowers
             try
             {
                 _logger.LogInformation($"{nameof(Get)} (Id: {id})");
-                var flower = _flowersService.GetById(id);
-                if (flower is null)
-                    return NotFound();
-                else
-                    return Ok(flower);
+                var res = _flowersService.GetById(id);
+                return StatusCode(res.StatusCode, res);
             }
             catch(Exception ex)
             {
@@ -42,13 +39,8 @@ namespace FlowersBEWebApi.Controllers.Flowers
             try
             {
                 _logger.LogInformation($"{nameof(GetAll)}");
-                var flowers = _flowersService.GetAll();
-                if (flowers.Count == 0)
-                {
-                    _logger.LogWarning($"{nameof(GetAll)} No flowers were found");
-                    return NoContent();
-                }
-                return Ok(flowers);
+                var res = _flowersService.GetAll();
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {
@@ -63,12 +55,8 @@ namespace FlowersBEWebApi.Controllers.Flowers
             try
             {
                 _logger.LogInformation($"{nameof(GetByCategory)} ({category})");
-                var flowers = _flowersService.GetByCategory(category);
-                if (flowers.Count == 0)
-                {
-                    return NoContent();
-                }
-                return Ok(flowers);
+                var res = _flowersService.GetByCategory(category);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {
@@ -83,12 +71,8 @@ namespace FlowersBEWebApi.Controllers.Flowers
             try
             {
                 _logger.LogInformation($"{nameof(GetByPrice)} ({price})");
-                var flowers = _flowersService.GetByPrice(price);
-                if (flowers.Count == 0)
-                {
-                    return NoContent();
-                }
-                return Ok(flowers);
+                var res = _flowersService.GetByPrice(price);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {
@@ -103,10 +87,8 @@ namespace FlowersBEWebApi.Controllers.Flowers
             try
             {
                 _logger.LogInformation($"{nameof(Add)} ({model.ToString()})");
-                if (_flowersService.SaveNewFlower(model))
-                    return StatusCode(201);
-                else
-                    return BadRequest();
+                var res = _flowersService.SaveNewFlower(model);
+                return StatusCode(res.StatusCode, res);
             }
             catch(Exception ex)
             {
@@ -121,10 +103,8 @@ namespace FlowersBEWebApi.Controllers.Flowers
             try
             {
                 _logger.LogInformation($"{nameof(Update)} (Id: {id}, {model.ToString()})");
-                if (_flowersService.UpdateFlowerData(model, id))
-                    return Ok();
-                else
-                    return BadRequest();
+                var res = _flowersService.UpdateFlowerData(model, id);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {
@@ -139,10 +119,8 @@ namespace FlowersBEWebApi.Controllers.Flowers
             try
             {
                 _logger.LogInformation($"{nameof(Delete)} (Id: {id})");
-                if (_flowersService.DeleteFlowerById(id))
-                    return Ok();
-                else
-                    return StatusCode(500);
+                var res = _flowersService.DeleteFlowerById(id);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {

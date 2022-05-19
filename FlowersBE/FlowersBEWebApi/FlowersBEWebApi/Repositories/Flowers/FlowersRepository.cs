@@ -14,7 +14,6 @@ namespace FlowersBEWebApi.Repositories.Flowers
         public void Add(Flower flower)
         {
             _context.Flowers.Add(flower);
-            _context.SaveChanges();
         }
 
         public Flower Get(int id)
@@ -40,13 +39,11 @@ namespace FlowersBEWebApi.Repositories.Flowers
         public void Update(Flower flower)
         {
             _context.Flowers.Update(flower);
-            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
             _context.Flowers.Remove(Get(id));
-            _context.SaveChanges();
         }
     }
 }

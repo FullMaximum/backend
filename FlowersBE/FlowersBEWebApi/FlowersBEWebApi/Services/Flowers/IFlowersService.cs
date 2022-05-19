@@ -1,15 +1,16 @@
-﻿using FlowersBEWebApi.Models;
+﻿using FlowersBEWebApi.Controllers;
+using FlowersBEWebApi.Models;
 
 namespace FlowersBEWebApi.Services.Flowers
 {
     public interface IFlowersService
     {
-        public bool SaveNewFlower(FlowerModel flower);
-        public bool DeleteFlowerById(int id);
-        public bool UpdateFlowerData(FlowerModel flower, int id);
-        public List<FlowerModel> GetByPrice(decimal price);
-        public List<FlowerModel> GetByCategory(string category);
-        public List<FlowerModel> GetAll();
-        public FlowerModel GetById(int id);
+        public BaseResult SaveNewFlower(FlowerModel flower);
+        public BaseResult DeleteFlowerById(int id);
+        public BaseResult UpdateFlowerData(FlowerModel flower, int id);
+        public BaseResult GetByPrice(decimal price);
+        public BaseResult GetByCategory(string category);
+        public BaseResult GetAll();
+        public BaseResult GetById(int id);
     }
 }

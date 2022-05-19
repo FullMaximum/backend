@@ -15,7 +15,7 @@ namespace FlowersBEWebApi.Repositories.Shops
 
 		public void Update(Shop shop);
 
-		public void Remove(Shop shop);
+		public void Remove(int id);
 
 	}
 }

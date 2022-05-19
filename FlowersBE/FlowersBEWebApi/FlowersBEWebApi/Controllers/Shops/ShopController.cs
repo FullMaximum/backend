@@ -24,7 +24,8 @@ namespace FlowersBEWebApi.Controllers
             try
             {
                 _logger.LogInformation($"{nameof(GetAll)}");
-                return _shopService.GetShops();
+                var res =  _shopService.GetShops();
+                return StatusCode(res.StatusCode, res);
             } catch (Exception e)
             {
                 _logger.LogError($"{nameof(GetAll)}, {e}");
@@ -38,7 +39,8 @@ namespace FlowersBEWebApi.Controllers
             try
             {
                 _logger.LogInformation($"{nameof(GetTop)}");
-                return _shopService.GetTop(rating);
+                var res = _shopService.GetTop(rating);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
@@ -53,14 +55,8 @@ namespace FlowersBEWebApi.Controllers
             try
             {
                 _logger.LogInformation($"{nameof(Get)}, {id}");
-                var shop = _shopService.GetShop(id);
-
-                if(shop == null)
-                {
-                    return StatusCode(404);
-                }
-
-                return shop;
+                var res = _shopService.GetShop(id);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
@@ -75,9 +71,8 @@ namespace FlowersBEWebApi.Controllers
             try
             {
                 _logger.LogInformation($"{nameof(Add)}, {shop}");
-                _shopService.Add(shop);
-
-                return StatusCode(201);
+                var res = _shopService.Add(shop);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
@@ -86,32 +81,30 @@ namespace FlowersBEWebApi.Controllers
             }
         }
 
-        [HttpPost("remove")]
-        public async Task<ActionResult> Remove(ShopModel shop)
+        [HttpPost("remove/{id}")]
+        public async Task<ActionResult> Remove(int id)
         {
             try
             {
-                _logger.LogInformation($"{nameof(Remove)}, {shop}");
-                _shopService.Remove(shop);
-
-                return StatusCode(200);
+                _logger.LogInformation($"{nameof(Remove)}, {id}");
+                var res = _shopService.Remove(id);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(Remove)}, {shop}, {e}");
+                _logger.LogError($"{nameof(Remove)}, {id}, {e}");
                 return StatusCode(500);
             }
         }
 
-        [HttpPost("update")]
-        public async Task<ActionResult> Update(ShopModel shop)
+        [HttpPost("update/{id}")]
+        public async Task<ActionResult> Update(ShopModel shop, int id)
         {
             try
             {
-                _logger.LogInformation($"{nameof(Update)}, {shop}");
-                _shopService.Update(shop);
-
-                return StatusCode(200);
+                _logger.LogInformation($"{nameof(Update)} ({shop})");
+                var res = _shopService.Update(shop, id);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
@@ -126,13 +119,8 @@ namespace FlowersBEWebApi.Controllers
             try
             {
                 _logger.LogInformation($"{nameof(GetNew)} ({date})");
-                var shops = _shopService.GetNewlyCreated(date);
-                if (shops.Count == 0)
-                    return NoContent();
-                else
-                    return Ok(shops);
-
-                return StatusCode(200);
+                var res = _shopService.GetNewlyCreated(date);
+                return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
