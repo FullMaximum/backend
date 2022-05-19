@@ -14,11 +14,13 @@ namespace FlowersBEWebApi.Repositories
         public void Add(UserBase user)
         {
             _context.Users.Add(user);
-            _context.SaveChanges();
         }
 
         public List<UserBase> GetAll() => _context.Users.ToList();
 
-
+        public void Update(UserBase user)
+        {
+            _context.Users.Update(user);
+        }
     }
 }

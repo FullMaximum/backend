@@ -6,5 +6,6 @@ namespace FlowersBEWebApi.Repositories
     {
         public List<UserBase> GetAll();
         public void Add(UserBase user);
+        public void Update(UserBase user);
     }
 }

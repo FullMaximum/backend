@@ -1,16 +1,17 @@
-﻿using FlowersBEWebApi.Models;
+﻿using FlowersBEWebApi.Controllers;
+using FlowersBEWebApi.Models;
 
 namespace FlowersBEWebApi.Services.Shops
 {
     public interface IShopService
     {
-        public List<ShopModel> GetShops();
-        public List<ShopModel> GetTop(float rating);
-        public ShopModel GetShop(long id);
-        public void Add(ShopModel shop);
-        public void Remove(ShopModel shop);
-        public void Update(ShopModel shop);
-        public List<ShopModel> GetNewlyCreated(DateTime date);
+        public BaseResult GetShops();
+        public BaseResult GetTop(float rating);
+        public BaseResult GetShop(long id);
+        public BaseResult Add(ShopModel shop);
+        public BaseResult Remove(int id);
+        public BaseResult Update(ShopModel shop, int id);
+        public BaseResult GetNewlyCreated(DateTime date);
 
     }
 }

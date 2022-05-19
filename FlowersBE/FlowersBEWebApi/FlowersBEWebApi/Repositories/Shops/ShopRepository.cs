@@ -15,7 +15,6 @@ namespace FlowersBEWebApi.Repositories.Shops
         public void Add(Shop shop)
         {
             _context.Shops.Add(shop);
-            _context.SaveChanges();
         }
 
         public List<Shop> GetTop(float rating)
@@ -33,16 +32,15 @@ namespace FlowersBEWebApi.Repositories.Shops
             return _context.Shops.ToList();
         }
 
-        public void Remove(Shop shop)
+        public void Remove(int id)
         {
+            var shop = Get(id);
             _context.Shops.Remove(shop);
-            _context.SaveChanges();
         }
 
         public void Update(Shop shop)
         {
             _context.Shops.Update(shop);
-            _context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FlowersBEWebApi.Entities;
+﻿using FlowersBEWebApi.Controllers;
+using FlowersBEWebApi.Entities;
 using FlowersBEWebApi.Models;
 using FlowersBEWebApi.Repositories.Shops;
 
@@ -8,47 +9,55 @@ namespace FlowersBEWebApi.Services.Shops
     {
         private readonly IShopRepository _shopRepository;
         private readonly ILogger<ShopService> _logger;
+        private readonly DataContext _dataContext;
 
-        public ShopService(IShopRepository shopRepository, ILogger<ShopService> logger)
+        public ShopService(IShopRepository shopRepository, ILogger<ShopService> logger, DataContext dataContext)
 
         {
             _shopRepository = shopRepository;
             _logger = logger;
+            _dataContext = dataContext;
         }
 
-        public void Add(ShopModel shop)
+        public BaseResult Add(ShopModel shop)
         {
             try
             {
-                _logger.LogInformation($"{nameof(Add)}, {shop}");
+                _logger.LogInformation($"{nameof(Add)} ({shop})");
                 _shopRepository.Add(ConvertToShop(shop));
-
+                _dataContext.SaveChanges();
+                return new BaseResult(true, 200);
             }
             catch (Exception e)
             {
                 _logger.LogError($"{nameof(Add)}, {shop}, {e}");
+                return new BaseResult(false, 500, "Internal server error");
             }
         }
 
-        public ShopModel GetShop(long id)
+        public BaseResult GetShop(long id)
         {
             try
             {
                 _logger.LogInformation($"{nameof(GetShop)}, {id}");
                 var shop = _shopRepository.Get(id);
+                if (shop is null)
+                {
+                    _logger.LogWarning($"[{nameof(ShopService)}] {nameof(GetShop)} ({id}): Shop with the given ID was not found");
+                    return new BaseResult(false, 404, "Shop with the given ID not found");
+                }
 
-                return ConvertToModel(shop);
+                return new BaseResult(true, 200, "", ConvertToModel(shop));
             }
             catch (Exception e)
             {
                 _logger.LogError($"{nameof(GetShop)}, {id}, {e}");
-
-                return null;
+                return new BaseResult(false, 500, "Internal server error");
             }
 
         }
 
-        public List<ShopModel> GetShops()
+        public BaseResult GetShops()
         {
             try
             {
@@ -57,83 +66,108 @@ namespace FlowersBEWebApi.Services.Shops
                 var shopList = new List<ShopModel>();
 
                 _shopRepository.GetAll().ForEach(shop => shopList.Add(ConvertToModel(shop)));
-
-                return shopList;
+                if (shopList is null || shopList.Count == 0)
+                {
+                    _logger.LogWarning($"[{nameof(ShopService)}] {nameof(GetShops)}: No shops were found");
+                    return new BaseResult(false, 404, "No shops were found");
+                }
+                return new BaseResult(true, 200, "", shopList);
             }
             catch (Exception e)
             {
                 _logger.LogError($"{nameof(GetShops)}, {e}");
-
-                return null;
+                return new BaseResult(false, 500, "Internal server error");
             }
             
         }
 
-        public void Remove(ShopModel shop)
+        public BaseResult Remove(int id)
         {
             try
             {
-                _logger.LogInformation($"{nameof(Remove)}, {shop}");
-                _shopRepository.Remove(ConvertToShop(shop));
+                _logger.LogInformation($"{nameof(Remove)}, {id}");
 
+                var shop = _shopRepository.Get(id);
+                if (shop is null)
+                {
+                    _logger.LogWarning($"[{nameof(ShopService)}] {nameof(Remove)}: Shop with the following ID: ({id}) was not found");
+                    return new BaseResult(false, 404, "Shop with the given ID not found");
+                }
+                _shopRepository.Remove(id);
+                _dataContext.SaveChanges();
+                return new BaseResult(true, 200);
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(Remove)}, {shop}, {e}");
+                _logger.LogError($"{nameof(Remove)}, {id}, {e}");
+                return new BaseResult(false, 500, "Internal server error");
             }
 
         }
 
-        public void Update(ShopModel shop)
+        public BaseResult Update(ShopModel shop, int id)
         {
             try
             {
                 _logger.LogInformation($"{nameof(Update)}, {shop}");
+
+                var checkRes = GetShop(id);
+                if (!checkRes.Success)
+                    return checkRes;
+
                 _shopRepository.Update(ConvertToShop(shop));
-
-
+                _dataContext.SaveChanges();
+                return new BaseResult(true, 200);
             }
             catch (Exception e)
             {
                 _logger.LogError($"{nameof(Update)}, {shop}, {e}");
+                return new BaseResult(false, 500, "Internal server error");
             }
         }
 
-        public List<ShopModel> GetNewlyCreated(DateTime date)
+        public BaseResult GetNewlyCreated(DateTime date)
         {
             try
             {
                 _logger.LogInformation($"{nameof(GetNewlyCreated)} ({date})");
-                var shops = GetShops();
-                if (shops is null || shops.Count == 0)
-                    return new List<ShopModel>();
+                var shopsRes = GetShops();
+                if (!shopsRes.Success)
+                    return shopsRes;
                 else
-                    return shops.Where(shop => shop.CreatedAt >= date).ToList();
+                {
+                    var newlyCreatedShops = ((List<ShopModel>)shopsRes.ReturnObject).Where(shop => shop.CreatedAt >= date).ToList();
+                    return new BaseResult(true, 200, "", newlyCreatedShops);
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(Update)} ({date}): ({ex})");
-                return new List<ShopModel>();
+                return new BaseResult(false, 500, "Internal server error");
             }
         }
-        
-        public List<ShopModel> GetTop(float rating)
+
+        public BaseResult GetTop(float rating)
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetTop)}");
+                _logger.LogInformation($"{nameof(GetTop)} ({rating})");
 
                 var shopList = new List<ShopModel>();
-
                 _shopRepository.GetTop(rating).ForEach(shop => shopList.Add(ConvertToModel(shop)));
 
-                return shopList;
+                if (shopList is null || shopList.Count == 0)
+                {
+                    _logger.LogWarning($"[{nameof(ShopService)}] {nameof(GetTop)} ({rating}): No shops with such or better rating were found");
+                    return new BaseResult(false, 404, "No shops with such or better rating were found");
+                }                    
+
+                return new BaseResult(true, 200, "", shopList);
             }
             catch (Exception e)
             {
                 _logger.LogError($"{nameof(GetShops)}, {e}");
-
-                return null;
+                return new BaseResult(false, 500, "Internal server error");
             }
 
         }

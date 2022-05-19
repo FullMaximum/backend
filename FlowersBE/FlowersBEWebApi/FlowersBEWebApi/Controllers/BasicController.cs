@@ -36,7 +36,8 @@ namespace FlowersBEWebApi.Controllers
         public async Task<ActionResult<List<UserBase>>> GetAll()
         {
             _logger.LogInformation($"We got request to {nameof(BasicController)}");
-            return Ok(_basicService.GetUsers());
+            var res = _basicService.GetUsers();
+            return StatusCode(res.StatusCode, res);
         }
 
         [HttpPost("newUser")]
@@ -46,6 +47,15 @@ namespace FlowersBEWebApi.Controllers
                 return BadRequest("User is null");
             _basicService.Add(user);
             return Ok("Created");
+        }
+
+        [HttpPost("update/{id}")]
+        public async Task<ActionResult<List<UserBase>>> Update(UserBase user, int id)
+        {
+            if (user == null)
+                return BadRequest("User is null");
+            _basicService.Update(user, id);
+            return StatusCode(201, "Created");
         }
     }
 }
