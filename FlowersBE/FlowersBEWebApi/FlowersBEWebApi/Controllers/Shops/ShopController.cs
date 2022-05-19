@@ -23,12 +23,12 @@ namespace FlowersBEWebApi.Controllers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetAll)}");
+                _logger.LogInformation($"[{nameof(ShopController)}] {nameof(GetAll)}");
                 var res =  _shopService.GetShops();
                 return StatusCode(res.StatusCode, res);
             } catch (Exception e)
             {
-                _logger.LogError($"{nameof(GetAll)}, {e}");
+                _logger.LogError($"[{nameof(ShopController)}] {nameof(GetAll)}, {e}");
                 return StatusCode(500);
             }
         }
@@ -38,13 +38,13 @@ namespace FlowersBEWebApi.Controllers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetTop)}");
+                _logger.LogInformation($"[{nameof(ShopController)}] {nameof(GetTop)} (Rating: {rating})");
                 var res = _shopService.GetTop(rating);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(GetTop)}, {e}");
+                _logger.LogError($"[{nameof(ShopController)}] {nameof(GetTop)} (Rating: {rating}): {e}");
                 return StatusCode(500);
             }
         }
@@ -54,13 +54,13 @@ namespace FlowersBEWebApi.Controllers
         {
             try
             {
-                _logger.LogInformation($"{nameof(Get)}, {id}");
+                _logger.LogInformation($"[{nameof(ShopController)}] {nameof(Get)} (Id: {id})");
                 var res = _shopService.GetShop(id);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(Get)}, {id}, {e}");
+                _logger.LogError($"[{nameof(ShopController)}] {nameof(Get)} (Id: {id}): {e}");
                 return StatusCode(500);
             }
         }
@@ -70,13 +70,13 @@ namespace FlowersBEWebApi.Controllers
         {
             try
             {
-                _logger.LogInformation($"{nameof(Add)}, {shop}");
+                _logger.LogInformation($"[{nameof(ShopController)}] {nameof(Add)} ({shop})");
                 var res = _shopService.Add(shop);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(Add)}, {shop}, {e}");
+                _logger.LogError($"[{nameof(ShopController)}] {nameof(Add)} ({shop}): {e}");
                 return StatusCode(500);
             }
         }
@@ -86,13 +86,13 @@ namespace FlowersBEWebApi.Controllers
         {
             try
             {
-                _logger.LogInformation($"{nameof(Remove)}, {id}");
+                _logger.LogInformation($"[{nameof(ShopController)}] {nameof(Remove)} (Id: {id})");
                 var res = _shopService.Remove(id);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(Remove)}, {id}, {e}");
+                _logger.LogError($"[{nameof(ShopController)}] {nameof(Remove)} (Id: {id}): {e}");
                 return StatusCode(500);
             }
         }
@@ -102,13 +102,13 @@ namespace FlowersBEWebApi.Controllers
         {
             try
             {
-                _logger.LogInformation($"{nameof(Update)} ({shop})");
+                _logger.LogInformation($"[{nameof(ShopController)}] {nameof(Update)} (Id: {id}, {shop})");
                 var res = _shopService.Update(shop, id);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(Update)}, {shop}, {e}");
+                _logger.LogError($"[{nameof(ShopController)}] {nameof(Update)} ({shop}): {e}");
                 return StatusCode(500);
             }
         }
@@ -118,13 +118,13 @@ namespace FlowersBEWebApi.Controllers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetNew)} ({date})");
+                _logger.LogInformation($"[{nameof(ShopController)}] {nameof(GetNew)} ({date})");
                 var res = _shopService.GetNewlyCreated(date);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(GetNew)} ({date}): ({e})");
+                _logger.LogError($"[{nameof(ShopController)}] {nameof(GetNew)} ({date}): {e}");
                 return StatusCode(500);
             }
         }

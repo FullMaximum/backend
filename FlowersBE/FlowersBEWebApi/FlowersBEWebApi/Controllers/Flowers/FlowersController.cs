@@ -22,13 +22,13 @@ namespace FlowersBEWebApi.Controllers.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(Get)} (Id: {id})");
+                _logger.LogInformation($"[{nameof(FlowersController)}] {nameof(Get)} (Id: {id})");
                 var res = _flowersService.GetById(id);
                 return StatusCode(res.StatusCode, res);
             }
             catch(Exception ex)
             {
-                _logger.LogError($"{nameof(Get)} ({id}): ({ex})");
+                _logger.LogError($" [{nameof(FlowersController)}] {nameof(Get)} ({id}): ({ex})");
                 return StatusCode(500);
             }
         }
@@ -38,13 +38,13 @@ namespace FlowersBEWebApi.Controllers.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetAll)}");
+                _logger.LogInformation($"[{nameof(FlowersController)}] {nameof(GetAll)}");
                 var res = _flowersService.GetAll();
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetAll)} ({ex})");
+                _logger.LogError($"[{nameof(FlowersController)}] {nameof(GetAll)} ({ex})");
                 return StatusCode(500);
             }
         }
@@ -54,13 +54,13 @@ namespace FlowersBEWebApi.Controllers.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetByCategory)} ({category})");
+                _logger.LogInformation($"[{nameof(FlowersController)}] {nameof(GetByCategory)} (Category: {category})");
                 var res = _flowersService.GetByCategory(category);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetByCategory)} ({category}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersController)}] {nameof(GetByCategory)} ({category}): ({ex})");
                 return StatusCode(500);
             }
         }
@@ -70,13 +70,13 @@ namespace FlowersBEWebApi.Controllers.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetByPrice)} ({price})");
+                _logger.LogInformation($"[{nameof(FlowersController)}] {nameof(GetByPrice)} (Price: {price})");
                 var res = _flowersService.GetByPrice(price);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetByPrice)} ({price}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersController)}] {nameof(GetByPrice)} (Price: {price}): ({ex})");
                 return StatusCode(500);
             }
         }
@@ -86,13 +86,13 @@ namespace FlowersBEWebApi.Controllers.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(Add)} ({model.ToString()})");
+                _logger.LogInformation($"[{nameof(FlowersController)}] {nameof(Add)} ({model.ToString()})");
                 var res = _flowersService.SaveNewFlower(model);
                 return StatusCode(res.StatusCode, res);
             }
             catch(Exception ex)
             {
-                _logger.LogError($"{nameof(Add)} ({model.ToString()}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersController)}] {nameof(Add)} ({model.ToString()}): ({ex})");
                 return StatusCode(500);
             }
         }
@@ -102,13 +102,13 @@ namespace FlowersBEWebApi.Controllers.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(Update)} (Id: {id}, {model.ToString()})");
+                _logger.LogInformation($"[{nameof(FlowersController)}] {nameof(Update)} (Id: {id}, {model.ToString()})");
                 var res = _flowersService.UpdateFlowerData(model, id);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(Update)} (Id: {id}, {model.ToString()}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersController)}] {nameof(Update)} (Id: {id}, {model.ToString()}): ({ex})");
                 return StatusCode(500);
             }
         }
@@ -118,13 +118,13 @@ namespace FlowersBEWebApi.Controllers.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(Delete)} (Id: {id})");
+                _logger.LogInformation($"[{nameof(FlowersController)}] {nameof(Delete)} (Id: {id})");
                 var res = _flowersService.DeleteFlowerById(id);
                 return StatusCode(res.StatusCode, res);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(Delete)} ({id}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersController)}] {nameof(Delete)} (Id: {id}): ({ex})");
                 return StatusCode(500);
             }
         }
