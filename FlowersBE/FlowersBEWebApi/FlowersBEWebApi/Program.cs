@@ -18,9 +18,10 @@ using (SentrySdk.Init(o =>
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    var loggerConnStrings = "DefaultEndpointsProtocol=https;AccountName=fullmaximumstorage;AccountKey=D1yj+2eTqHooxc/nT5s2/O8uRaJUS8LCMXsxB2mBCLDsESLn50qYMLmLUnosnpcaj3J3B1N+GD89yG3mdrCbcg==;EndpointSuffix=core.windows.net";
+    var loggerConnStrings = builder.Configuration.GetConnectionString("LoggerStrings");
     var logger = new LoggerConfiguration()
         .WriteTo.AzureBlobStorage(connectionString: loggerConnStrings, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
+        .WriteTo.File(new Serilog.Formatting.Raw.RawFormatter(), "C:\\temp\\flowersLogs.txt", rollingInterval: RollingInterval.Day)
         .CreateLogger();
 
     builder.Logging.ClearProviders();
