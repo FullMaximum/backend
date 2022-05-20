@@ -21,7 +21,7 @@ using (SentrySdk.Init(o =>
     var loggerConnStrings = builder.Configuration.GetConnectionString("LoggerStrings");
     var logger = new LoggerConfiguration()
         .WriteTo.AzureBlobStorage(connectionString: loggerConnStrings, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
-        .WriteTo.File(new Serilog.Formatting.Raw.RawFormatter(), "C:\\temp\\flowersLogs.txt", rollingInterval: RollingInterval.Day)
+        .WriteTo.File("C:\\temp\\flowersLogs.txt", rollingInterval: RollingInterval.Day, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
         .CreateLogger();
 
     builder.Logging.ClearProviders();
