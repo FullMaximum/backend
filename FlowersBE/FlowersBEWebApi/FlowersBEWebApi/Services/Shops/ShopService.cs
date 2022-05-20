@@ -23,14 +23,14 @@ namespace FlowersBEWebApi.Services.Shops
         {
             try
             {
-                _logger.LogInformation($"{nameof(Add)} ({shop})");
+                _logger.LogInformation($"[{nameof(ShopService)}] {nameof(Add)} ({shop})");
                 _shopRepository.Add(ConvertToShop(shop));
                 _dataContext.SaveChanges();
                 return new BaseResult(true, 200);
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(Add)}, {shop}, {e}");
+                _logger.LogError($"[{nameof(ShopService)}] {nameof(Add)} ({shop}): {e}");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }
@@ -39,7 +39,7 @@ namespace FlowersBEWebApi.Services.Shops
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetShop)}, {id}");
+                _logger.LogInformation($"[{nameof(ShopService)}] {nameof(GetShop)} (Id: {id})");
                 var shop = _shopRepository.Get(id);
                 if (shop is null)
                 {
@@ -51,7 +51,7 @@ namespace FlowersBEWebApi.Services.Shops
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(GetShop)}, {id}, {e}");
+                _logger.LogError($"[{nameof(ShopService)}] {nameof(GetShop)} ({id}): {e}");
                 return new BaseResult(false, 500, "Internal server error");
             }
 
@@ -61,7 +61,7 @@ namespace FlowersBEWebApi.Services.Shops
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetShops)}");
+                _logger.LogInformation($"[{nameof(ShopService)}] {nameof(GetShops)}");
 
                 var shopList = new List<ShopModel>();
 
@@ -75,7 +75,7 @@ namespace FlowersBEWebApi.Services.Shops
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(GetShops)}, {e}");
+                _logger.LogError($"[{nameof(ShopService)}] {nameof(GetShops)}: {e}");
                 return new BaseResult(false, 500, "Internal server error");
             }
             
@@ -85,7 +85,7 @@ namespace FlowersBEWebApi.Services.Shops
         {
             try
             {
-                _logger.LogInformation($"{nameof(Remove)}, {id}");
+                _logger.LogInformation($"[{nameof(ShopService)}] {nameof(Remove)} ({id})");
 
                 var shop = _shopRepository.Get(id);
                 if (shop is null)
@@ -99,7 +99,7 @@ namespace FlowersBEWebApi.Services.Shops
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(Remove)}, {id}, {e}");
+                _logger.LogError($"[{nameof(ShopService)}] {nameof(Remove)} ({id}): {e}");
                 return new BaseResult(false, 500, "Internal server error");
             }
 
@@ -109,7 +109,7 @@ namespace FlowersBEWebApi.Services.Shops
         {
             try
             {
-                _logger.LogInformation($"{nameof(Update)}, {shop}");
+                _logger.LogInformation($"[{nameof(ShopService)}] {nameof(Update)} (Id: {id},{shop})");
 
                 var checkRes = GetShop(id);
                 if (!checkRes.Success)
@@ -121,7 +121,7 @@ namespace FlowersBEWebApi.Services.Shops
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(Update)}, {shop}, {e}");
+                _logger.LogError($"[{nameof(ShopService)}] {nameof(Update)} (Id: {id},{shop}): {e}");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }
@@ -130,7 +130,7 @@ namespace FlowersBEWebApi.Services.Shops
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetNewlyCreated)} ({date})");
+                _logger.LogInformation($"[{nameof(ShopService)}] {nameof(GetNewlyCreated)} ({date})");
                 var shopsRes = GetShops();
                 if (!shopsRes.Success)
                     return shopsRes;
@@ -142,7 +142,7 @@ namespace FlowersBEWebApi.Services.Shops
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(Update)} ({date}): ({ex})");
+                _logger.LogError($"[{nameof(ShopService)}] {nameof(Update)} ({date}): ({ex})");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }
@@ -151,7 +151,7 @@ namespace FlowersBEWebApi.Services.Shops
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetTop)} ({rating})");
+                _logger.LogInformation($"[{nameof(ShopService)}] {nameof(GetTop)} ({rating})");
 
                 var shopList = new List<ShopModel>();
                 _shopRepository.GetTop(rating).ForEach(shop => shopList.Add(ConvertToModel(shop)));
@@ -166,7 +166,7 @@ namespace FlowersBEWebApi.Services.Shops
             }
             catch (Exception e)
             {
-                _logger.LogError($"{nameof(GetShops)}, {e}");
+                _logger.LogError($"[{nameof(ShopService)}] {nameof(GetShops)}, {e}");
                 return new BaseResult(false, 500, "Internal server error");
             }
 
