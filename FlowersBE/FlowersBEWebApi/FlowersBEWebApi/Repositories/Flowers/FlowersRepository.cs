@@ -43,7 +43,9 @@ namespace FlowersBEWebApi.Repositories.Flowers
 
         public void Delete(int id)
         {
-            _context.Flowers.Remove(Get(id));
+            var flower = Get(id);
+            if(flower != null)
+                _context.Flowers.Remove(flower);
         }
     }
 }
