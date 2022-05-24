@@ -121,5 +121,25 @@ namespace FlowersBEWebApi.Services.Orders
                 return new BaseResult(false, 500, "Internal Server error");
             }
         }
+
+        public BaseResult GetByOrderId(int id)
+        {
+            _logger.LogInformation($"[{nameof(OrderItemsService)}] {nameof(GetByOrderId)} (OrderId: {id})");
+            try
+            {
+                var items = _orderItemsRepository.GetByOrderId(id);
+                if (items == null || items.Count < 1)
+                {
+                    _logger.LogError($"[{nameof(OrderItemsService)}] {nameof(GetByOrderId)} (OrderId: {id}): No items were found for the given order id");
+                    return new BaseResult(false, 404, "No items were found for the given order id");
+                }
+                return new BaseResult(true, 200, "", items);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{nameof(OrderItemsService)}] {nameof(InsertOne)} (OrderId: {id}): {ex}");
+                return new BaseResult(false, 500, "Internal Server error");
+            }
+        }
     }
 }

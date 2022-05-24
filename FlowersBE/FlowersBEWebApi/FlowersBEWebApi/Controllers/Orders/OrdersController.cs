@@ -2,7 +2,7 @@
 using FlowersBEWebApi.Services.Orders;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlowersBEWebApi.Controllers
+namespace FlowersBEWebApi.Controllers.Orders
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -28,7 +28,23 @@ namespace FlowersBEWebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[{nameof(OrdersController)}] {nameof(Create)} ({model.ToString()}): ({ex})");
+                _logger.LogError($"[{nameof(OrdersController)}] {nameof(Create)} ({model.ToString()}): {ex}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet("/{id}")]
+        public async Task<ActionResult<BaseResult>> GetById(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"[{nameof(OrdersController)}] {nameof(GetById)} (Id: {id})");
+                var res = _service.GetById(id);
+                return StatusCode(res.StatusCode, res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{nameof(OrdersController)}] {nameof(GetById)} (Id: {id}): {ex}");
                 return StatusCode(500);
             }
         }

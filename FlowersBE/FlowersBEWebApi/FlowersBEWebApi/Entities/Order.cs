@@ -11,8 +11,8 @@ namespace FlowersBEWebApi.Entities
         public OrderStatus Status { get; set; }
         public decimal OrderTotal { get; set; }
         public string? DeliveryAddress { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         [Timestamp]
         public byte[]? RowVersion { get; set; }
     }

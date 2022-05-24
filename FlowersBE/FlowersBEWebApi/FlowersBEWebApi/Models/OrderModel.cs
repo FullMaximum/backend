@@ -10,8 +10,8 @@ namespace FlowersBEWebApi.Models
         public OrderStatus Status { get; set; }
         public decimal OrderTotal { get; set; }
         public string? DeliveryAddress { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public byte[]? RowVersion { get; set; }
         public List<Item> Items { get; set; }
 

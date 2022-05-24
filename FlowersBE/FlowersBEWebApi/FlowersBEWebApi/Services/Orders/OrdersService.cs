@@ -1,4 +1,5 @@
 ﻿using FlowersBEWebApi.Controllers;
+using FlowersBEWebApi.Entities;
 using FlowersBEWebApi.Mappers.Orders;
 using FlowersBEWebApi.Models;
 using FlowersBEWebApi.Repositories.Orders;
@@ -35,6 +36,38 @@ namespace FlowersBEWebApi.Services.Orders
             catch (Exception ex)
             {
                 _logger.LogError($"[{nameof(OrdersService)}] {nameof(CreateOrder)} (Model: {model}): {ex}");
+                return new BaseResult(false, 500, "Internal Server error");
+            }
+        }
+
+        public BaseResult GetById(int id)
+        {
+            _logger.LogInformation($"[{nameof(OrdersService)}] {nameof(GetById)} (Id: {id})");
+            try
+            {
+                var order = _mapper.Map(_ordersRepository.GetById(id));
+                if (order is null)
+                {
+                    _logger.LogWarning($"[{nameof(OrdersService)}] {nameof(GetById)} (Id: {id}): Order with the given Id not found");
+                    return new BaseResult(false, 404, "Order with the given Id not found");
+                }
+
+                var orderItemsRes = _orderItemsService.GetByOrderId(id);
+                if (!orderItemsRes.Success)
+                {
+                    return orderItemsRes;
+                }
+                order.Items = new List<Item>();
+                foreach (var item in orderItemsRes.ReturnObject as List<OrderItem>)
+                {
+                    order.Items.Add(new Item { FlowerId = item.FlowerId, Count = item.Count });
+                }
+
+                return new BaseResult(true, 200, "", order);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{nameof(OrdersService)}] {nameof(GetById)} (Id: {id}): {ex}");
                 return new BaseResult(false, 500, "Internal Server error");
             }
         }

@@ -7,6 +7,8 @@ namespace FlowersBEWebApi.Mappers.Orders
     {
         public OrderItem Map(OrderItemModel model)
         {
+            if (model == null)
+                return null;
             return new OrderItem
             {
                 Id = model.Id,
@@ -19,6 +21,8 @@ namespace FlowersBEWebApi.Mappers.Orders
 
         public OrderItemModel Map(OrderItem orderItem)
         {
+            if (orderItem == null)
+                return null;
             return new OrderItemModel
             {
                 Id = orderItem.Id,
