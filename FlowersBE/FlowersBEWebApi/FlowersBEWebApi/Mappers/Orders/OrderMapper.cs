@@ -16,8 +16,8 @@ namespace FlowersBEWebApi.Mappers.Orders
                 ShopId = orderModel.ShopId,
                 Status = orderModel.Status,
                 DeliveryAddress = orderModel.DeliveryAddress,
-                CreatedAt = orderModel.CreatedAt,
-                UpdatedAt = orderModel.UpdatedAt,
+                CreatedAt = orderModel.CreatedAt ?? DateTime.UtcNow,
+                UpdatedAt = orderModel.UpdatedAt ?? DateTime.UtcNow,
                 RowVersion = orderModel.RowVersion,
             };
         }

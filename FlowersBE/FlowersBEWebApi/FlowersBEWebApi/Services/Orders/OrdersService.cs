@@ -72,6 +72,44 @@ namespace FlowersBEWebApi.Services.Orders
             }
         }
 
+        public BaseResult GetByUserId(int userId)
+        {
+            _logger.LogInformation($"[{nameof(OrdersService)}] {nameof(GetByUserId)} (UserId: {userId})");
+            try
+            {
+                var orders = _ordersRepository.GetByUserId(userId);
+                if (orders is null || orders.Count < 1)
+                {
+                    _logger.LogWarning($"[{nameof(OrdersService)}] {nameof(GetByUserId)} (UserId: {userId}): Orders with the given UserId not found");
+                    return new BaseResult(false, 404, "Orders with the given UserId not found");
+                }
+
+                var returnList = new List<OrderModel>();
+                foreach (var item in orders)
+                {
+                    var orderModel = _mapper.Map(item);
+                    var orderItemsRes = _orderItemsService.GetByOrderId(item.Id);
+                    if (!orderItemsRes.Success)
+                    {
+                        continue;
+                    }
+                    orderModel.Items = new List<Item>();
+                    foreach (var orderItem in orderItemsRes.ReturnObject as List<OrderItem>)
+                    {
+                        orderModel.Items.Add(new Item { FlowerId = orderItem.FlowerId, Count = orderItem.Count });
+                    }
+                    returnList.Add(orderModel);
+                }
+
+                return new BaseResult(true, 200, "", returnList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{nameof(OrdersService)}] {nameof(GetByUserId)} (UserId: {userId}): {ex}");
+                return new BaseResult(false, 500, "Internal Server error");
+            }
+        }
+
         public BaseResult DeleteOrder(int id)
         {
             throw new NotImplementedException();

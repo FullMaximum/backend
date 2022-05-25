@@ -33,7 +33,7 @@ namespace FlowersBEWebApi.Controllers.Orders
             }
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("byOrderId/{id}")]
         public async Task<ActionResult<BaseResult>> GetById(int id)
         {
             try
@@ -45,6 +45,22 @@ namespace FlowersBEWebApi.Controllers.Orders
             catch (Exception ex)
             {
                 _logger.LogError($"[{nameof(OrdersController)}] {nameof(GetById)} (Id: {id}): {ex}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet("byUserId/{userId}")]
+        public async Task<ActionResult<BaseResult>> GetByUserId(int userId)
+        {
+            try
+            {
+                _logger.LogInformation($"[{nameof(OrdersController)}] {nameof(GetByUserId)} (Id: {userId})");
+                var res = _service.GetByUserId(userId);
+                return StatusCode(res.StatusCode, res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{nameof(OrdersController)}] {nameof(GetByUserId)} (Id: {userId}): {ex}");
                 return StatusCode(500);
             }
         }

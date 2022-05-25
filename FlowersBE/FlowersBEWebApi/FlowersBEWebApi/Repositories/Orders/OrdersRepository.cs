@@ -40,7 +40,7 @@ namespace FlowersBEWebApi.Repositories.Orders
 
         public List<Order> GetByUserId(int userId)
         {
-            return _dataContext.Orders.Where(order => order.UserId == userId).ToList();
+            return _dataContext.Orders.Where(order => order.UserId == userId).OrderByDescending(order => order.CreatedAt).Take(5).ToList();
         }
 
         public List<Order> GetByShopId(int shopId)

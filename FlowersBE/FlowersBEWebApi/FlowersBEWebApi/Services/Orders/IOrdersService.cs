@@ -9,5 +9,6 @@ namespace FlowersBEWebApi.Services.Orders
         public BaseResult UpdateOrder(OrderModel model);
         public BaseResult DeleteOrder(int id);
         public BaseResult GetById(int id);
+        public BaseResult GetByUserId(int userId);
     }
 }
