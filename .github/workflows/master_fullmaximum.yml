@@ -23,7 +23,7 @@ jobs:
           files: 'FlowersBE/FlowersBEWebApi/FlowersBEWebApi/appsettings.json'
         env:
           ConnectionStrings.Fullmaximum: ${{ secrets.DATABASE_CONNECTION_STRING }}
-          
+          ConnectionStrings.LoggerStrings: ${{ secrets.LOGGING_CONNECTION_STRINGS }}
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
