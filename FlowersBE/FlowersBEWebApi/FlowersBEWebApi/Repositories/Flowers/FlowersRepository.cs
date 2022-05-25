@@ -47,5 +47,9 @@ namespace FlowersBEWebApi.Repositories.Flowers
             if(flower != null)
                 _context.Flowers.Remove(flower);
         }
+        public List<Flower> GetByShopId(long shopId)
+        {
+            return _context.Flowers.Where(f => f.ShopId == shopId).ToList();
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace FlowersBEWebApi.Repositories.Flowers
         public void Add (Flower flower);
         public void Update (Flower flower);
         public void Delete (int id);
+        public List<Flower> GetByShopId(long shopId);
     }
 }
