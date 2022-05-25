@@ -55,6 +55,7 @@ namespace FlowersBEWebApi.Services.Flowers
                 {
                     Id = x.Id,
                     Name = x.Name,
+                    ShopId = x.ShopId,
                     Category = x.Category,
                     Price = x.Price,
                     ImagePath = x.ImagePath,
@@ -84,6 +85,7 @@ namespace FlowersBEWebApi.Services.Flowers
                     Id = x.Id,
                     Name = x.Name,
                     Category = x.Category,
+                    ShopId = x.ShopId,
                     Price = x.Price,
                     ImagePath = x.ImagePath,
                 }).ToList();
@@ -112,6 +114,7 @@ namespace FlowersBEWebApi.Services.Flowers
                     Id = id, 
                     Name = flower.Name, 
                     Category = flower.Category, 
+                    ShopId = flower.ShopId,
                     Price = flower.Price, 
                     ImagePath = flower.ImagePath 
                 };
@@ -140,6 +143,7 @@ namespace FlowersBEWebApi.Services.Flowers
                     Id = x.Id,
                     Name = x.Name,
                     Category = x.Category,
+                    ShopId = x.ShopId,
                     Price = x.Price,
                     ImagePath = x.ImagePath,
                 }).ToList();
@@ -162,6 +166,7 @@ namespace FlowersBEWebApi.Services.Flowers
                     Name = flower.Name,
                     Price = flower.Price,
                     Category = flower.Category,
+                    ShopId = flower.ShopId,
                     ImagePath = flower.ImagePath,
                 });
                 _context.SaveChanges();
@@ -189,6 +194,7 @@ namespace FlowersBEWebApi.Services.Flowers
                     Id = id,
                     Name = flower.Name,
                     Price = flower.Price,
+                    ShopId = flower.ShopId,
                     Category = flower.Category,
                     ImagePath = flower.ImagePath,
                 });
@@ -198,6 +204,34 @@ namespace FlowersBEWebApi.Services.Flowers
             catch (Exception ex)
             {
                 _logger.LogError($"[{nameof(FlowersService)}] {nameof(UpdateFlowerData)} (Id: {id}, {flower.ToString()}): ({ex})");
+                return new BaseResult(false, 500, "Internal server error");
+            }
+        }
+        public BaseResult GetByShopId(long shopId)
+        {
+            try
+            {
+                _logger.LogInformation($"[{nameof(FlowersService)}] {nameof(GetByShopId)} (ShopId: {shopId})");
+                var flowers = _repository.GetByShopId(shopId);
+                if (flowers.Count == 0 || flowers is null)
+                {
+                    _logger.LogWarning($"[{nameof(FlowersService)}] {nameof(GetByShopId)}: no flowers were found for shop: ({shopId})");
+                    return new BaseResult(false, 404, "No flowers found for the given shop");
+                }
+                var shopFlowers = flowers.Select(x => new FlowerModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Category = x.Category,
+                    ShopId = x.ShopId,
+                    Price = x.Price,
+                    ImagePath = x.ImagePath,
+                }).ToList();
+                return new BaseResult(true, 200, "", shopFlowers);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{nameof(FlowersService)}] {nameof(GetByCategory)} (ShopId: {shopId}): {ex}");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }

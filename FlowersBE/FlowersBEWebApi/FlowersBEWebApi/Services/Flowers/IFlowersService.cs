@@ -12,5 +12,6 @@ namespace FlowersBEWebApi.Services.Flowers
         public BaseResult GetByCategory(string category);
         public BaseResult GetAll();
         public BaseResult GetById(int id);
+        public BaseResult GetByShopId(long shopId);
     }
 }

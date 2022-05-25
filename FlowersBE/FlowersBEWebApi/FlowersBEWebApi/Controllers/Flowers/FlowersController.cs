@@ -128,5 +128,21 @@ namespace FlowersBEWebApi.Controllers.Flowers
                 return StatusCode(500);
             }
         }
+
+        [HttpGet("getByShopId/{shopId}")]
+        public async Task<ActionResult<BaseResult>> GetByShopId(long shopId)
+        {
+            try
+            {
+                _logger.LogInformation($"[{nameof(FlowersController)}] {nameof(GetByShopId)} (ShopId: {shopId})");
+                var res = _flowersService.GetByShopId(shopId);
+                return StatusCode(res.StatusCode, res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{nameof(FlowersController)}] {nameof(GetByPrice)} (ShopId: {shopId}): {ex}");
+                return StatusCode(500);
+            }
+        }
     }
 }
