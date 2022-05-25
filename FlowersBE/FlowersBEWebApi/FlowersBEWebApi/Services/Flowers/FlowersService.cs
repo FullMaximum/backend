@@ -20,13 +20,13 @@ namespace FlowersBEWebApi.Services.Flowers
 
         public BaseResult DeleteFlowerById(int id)
         {
-            _logger.LogInformation($"{nameof(DeleteFlowerById)} ({id})");
+            _logger.LogInformation($"[{nameof(FlowersService)}] {nameof(DeleteFlowerById)} ({id})");
             try
             {
                 var flower = _repository.Get(id);
                 if (flower is null)
                 {
-                    _logger.LogWarning($"{nameof(DeleteFlowerById)}: Flower with the following ID: ({id}) was not found");
+                    _logger.LogWarning($"[{nameof(FlowersService)}] {nameof(DeleteFlowerById)}: Flower with the following ID: ({id}) was not found");
                     return new BaseResult(false, 404, "Flower with the given ID not found");
                 }
                 _repository.Delete(id);
@@ -35,7 +35,7 @@ namespace FlowersBEWebApi.Services.Flowers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(DeleteFlowerById)} ({id}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersService)}] {nameof(DeleteFlowerById)} ({id}): ({ex})");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }
@@ -44,11 +44,11 @@ namespace FlowersBEWebApi.Services.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetAll)}");
+                _logger.LogInformation($"[{nameof(FlowersService)}] {nameof(GetAll)}");
                 var flowers = _repository.GetAll();
                 if (flowers.Count == 0 || flowers is null)
                 {
-                    _logger.LogWarning($"{nameof(GetAll)}: no flowers were found");
+                    _logger.LogWarning($"[{nameof(FlowersService)}] {nameof(GetAll)}: No flowers were found");
                     return new BaseResult(false, 404, "No flowers were found");
                 }
                 var flowersModelled = flowers.Select(x => new FlowerModel
@@ -63,7 +63,7 @@ namespace FlowersBEWebApi.Services.Flowers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetAll)}: ({ex})");
+                _logger.LogError($"[{nameof(FlowersService)}] {nameof(GetAll)}: ({ex})");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }
@@ -72,11 +72,11 @@ namespace FlowersBEWebApi.Services.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetByCategory)} ({category})");
+                _logger.LogInformation($"[{nameof(FlowersService)}] {nameof(GetByCategory)} ({category})");
                 var flowers = _repository.GetByCategory(category);
                 if (flowers.Count == 0 || flowers is null)
                 {
-                    _logger.LogWarning($"{nameof(GetByCategory)}: no flowers were found for category: ({category})");
+                    _logger.LogWarning($"[{nameof(FlowersService)}] {nameof(GetByCategory)}: no flowers were found for category: ({category})");
                     return new BaseResult(false, 404, "No flowers found for the given category");
                 }
                 var catFlower = flowers.Select(x => new FlowerModel
@@ -91,7 +91,7 @@ namespace FlowersBEWebApi.Services.Flowers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetByCategory)} (Category: {category}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersService)}] {nameof(GetByCategory)} (Category: {category}): ({ex})");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }
@@ -100,11 +100,11 @@ namespace FlowersBEWebApi.Services.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetById)} (Id: {id})");
+                _logger.LogInformation($"[{nameof(FlowersService)}] {nameof(GetById)} (Id: {id})");
                 var flower = _repository.Get(id);
                 if (flower is null)
                 {
-                    _logger.LogWarning($"{nameof(GetById)}: no flowers were found with ID: ({id})");
+                    _logger.LogWarning($"[{nameof(FlowersService)}] {nameof(GetById)}: no flowers were found with ID: ({id})");
                     return new BaseResult(false, 404, "Flower with the given ID not found");
                 }
                 var modelledFlower = new FlowerModel 
@@ -119,7 +119,7 @@ namespace FlowersBEWebApi.Services.Flowers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetById)} (Id: {id}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersService)}] {nameof(GetById)} (Id: {id}): ({ex})");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }
@@ -128,11 +128,11 @@ namespace FlowersBEWebApi.Services.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetByPrice)} (Price: {price})");
+                _logger.LogInformation($"[{nameof(FlowersService)}] {nameof(GetByPrice)} (Price: {price})");
                 var flowers = _repository.GetByPrice(price);
                 if (flowers.Count == 0 || flowers is null)
                 {
-                    _logger.LogWarning($"{nameof(GetByPrice)}: no flowers were found with price: ({price})");
+                    _logger.LogWarning($"[{nameof(FlowersService)}] {nameof(GetByPrice)}: no flowers were found with price: ({price})");
                     return new BaseResult(false, 404, "No flowers were found with the given price");
                 }
                 var pricedFlowers = flowers.Select(x => new FlowerModel
@@ -147,7 +147,7 @@ namespace FlowersBEWebApi.Services.Flowers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetByPrice)} (Price: {price}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersService)}] {nameof(GetByPrice)} (Price: {price}): ({ex})");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }
@@ -156,7 +156,7 @@ namespace FlowersBEWebApi.Services.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(SaveNewFlower)} ({flower.ToString()})");
+                _logger.LogInformation($"[{nameof(FlowersService)}] {nameof(SaveNewFlower)} ({flower.ToString()})");
                 _repository.Add(new Flower
                 {
                     Name = flower.Name,
@@ -169,7 +169,7 @@ namespace FlowersBEWebApi.Services.Flowers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(SaveNewFlower)} ({flower.ToString()}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersService)}] {nameof(SaveNewFlower)} ({flower.ToString()}): ({ex})");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }
@@ -178,11 +178,12 @@ namespace FlowersBEWebApi.Services.Flowers
         {
             try
             {
-                _logger.LogInformation($"{nameof(UpdateFlowerData)} (Id: {id}, {flower.ToString()})");
+                _logger.LogInformation($"[{nameof(FlowersService)}] {nameof(UpdateFlowerData)} (Id: {id}, {flower.ToString()})");
 
                 var checkRes = GetById(id);
                 if (!checkRes.Success)
                     return checkRes;
+
                 _repository.Update(new Flower
                 {
                     Id = id,
@@ -196,7 +197,7 @@ namespace FlowersBEWebApi.Services.Flowers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(UpdateFlowerData)} (Id: {id}, {flower.ToString()}): ({ex})");
+                _logger.LogError($"[{nameof(FlowersService)}] {nameof(UpdateFlowerData)} (Id: {id}, {flower.ToString()}): ({ex})");
                 return new BaseResult(false, 500, "Internal server error");
             }
         }

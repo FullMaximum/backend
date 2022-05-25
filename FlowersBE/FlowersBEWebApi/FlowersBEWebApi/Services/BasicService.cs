@@ -5,6 +5,9 @@ using System.Diagnostics;
 
 namespace FlowersBEWebApi.Services
 {
+    /// <summary>
+    /// This is a "dummy" service, where we can try out new global functionality without fearing to break business logic
+    /// </summary>
     public class BasicService : IBasicService
     {
         private readonly IBasicRepository _basicRepository;
