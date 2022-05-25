@@ -19,10 +19,20 @@ using (SentrySdk.Init(o =>
     builder.Services.AddSwaggerGen();
 
     var loggerConnStrings = builder.Configuration.GetConnectionString("LoggerStrings");
-    var logger = new LoggerConfiguration()
+    Serilog.Core.Logger logger = null;
+    if (string.IsNullOrWhiteSpace(loggerConnStrings))
+    {
+        logger = new LoggerConfiguration()
+        .WriteTo.File("C:\\temp\\flowersLogs.txt", rollingInterval: RollingInterval.Day, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
+        .CreateLogger();
+    }
+    else
+    {
+        logger = new LoggerConfiguration()
         .WriteTo.AzureBlobStorage(connectionString: loggerConnStrings, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
         .WriteTo.File("C:\\temp\\flowersLogs.txt", rollingInterval: RollingInterval.Day, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}")
         .CreateLogger();
+    }
 
     builder.Logging.ClearProviders();
     builder.Logging.AddSerilog(logger);
