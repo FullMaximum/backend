@@ -1,4 +1,5 @@
-﻿using FlowersBEWebApi.Models;
+﻿using FlowersBEWebApi.Helpers;
+using FlowersBEWebApi.Models;
 using FlowersBEWebApi.Services.Orders;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace FlowersBEWebApi.Controllers.Orders
             _service = service;
         }
 
+        //[Authorize]
         [HttpPost("/add")]
         public async Task<ActionResult<BaseResult>> Create(OrderModel model)
         {

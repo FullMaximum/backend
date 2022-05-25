@@ -19,7 +19,6 @@ namespace FlowersBEWebApi.Controllers
             _logger = logger;
         }
 
-        [Authorize]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<ShopModel>>> GetAll()
         {
@@ -35,7 +34,6 @@ namespace FlowersBEWebApi.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet("getTop/{rating}")]
         public async Task<ActionResult<List<ShopModel>>> GetTop(float rating)
         {
@@ -52,7 +50,6 @@ namespace FlowersBEWebApi.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet("get/{id}")]
         public async Task<ActionResult<ShopModel>> Get(long id)
         {
@@ -120,7 +117,6 @@ namespace FlowersBEWebApi.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet("getNew/{date}")]
         public async Task<ActionResult<List<ShopModel>>> GetNew(DateTime date)
         {
