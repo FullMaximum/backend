@@ -12,6 +12,13 @@
     <Content Remove="Services\ShopService\**" />
     <EmbeddedResource Remove="Services\ShopService\**" />
     <None Remove="Services\ShopService\**" />
+    <None Remove="Controllers\Auth\" />
+    <None Remove="Services\Auth\" />
+    <None Remove="Helpers\" />
+    <None Remove="System.IdentityModel.Tokens.Jwt" />
+    <None Remove="Microsoft.IdentityModel.Tokens" />
+    <None Remove="Middleware\" />
+    <None Remove="Repositories\Users\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +39,8 @@
     <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc.Core" Version="5.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
     <PackageReference Include="Sentry" Version="3.15.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.18.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.18.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,5 +54,10 @@
     <Folder Include="Enums\" />
     <Folder Include="Repositories\Shops\" />
     <Folder Include="Models\" />
+    <Folder Include="Controllers\Auth\" />
+    <Folder Include="Services\Auth\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Middleware\" />
+    <Folder Include="Repositories\Users\" />
   </ItemGroup>
 </Project>
