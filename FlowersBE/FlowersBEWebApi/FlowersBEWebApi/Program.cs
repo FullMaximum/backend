@@ -1,6 +1,8 @@
 global using FlowersBEWebApi.Data;
 global using Microsoft.EntityFrameworkCore;
 using FlowersBEWebApi;
+using FlowersBEWebApi.Helpers;
+using FlowersBEWebApi.Middleware;
 using Sentry;
 using Serilog;
 
@@ -17,6 +19,8 @@ using (SentrySdk.Init(o =>
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+    builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
     var loggerConnStrings = builder.Configuration.GetConnectionString("LoggerStrings");
     Serilog.Core.Logger logger = null;
@@ -53,7 +57,7 @@ using (SentrySdk.Init(o =>
 
     app.UseHttpsRedirection();
 
-    app.UseAuthorization();
+    app.UseMiddleware<JwtMiddleware>();
 
     app.MapControllers();
 

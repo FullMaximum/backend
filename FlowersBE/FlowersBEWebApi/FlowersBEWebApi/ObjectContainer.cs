@@ -1,12 +1,15 @@
 ﻿using FlowersBEWebApi.Repositories;
 using FlowersBEWebApi.Repositories.Shops;
 using FlowersBEWebApi.Repositories.Flowers;
+using FlowersBEWebApi.Repositories.Users;
 using FlowersBEWebApi.Services;
+using FlowersBEWebApi.Services.Auth;
 using FlowersBEWebApi.Services.Shops;
 using FlowersBEWebApi.Services.Flowers;
 using Serilog.Core;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
+using FlowersBEWebApi.Middleware;
 using FlowersBEWebApi.Mappers.Orders;
 using FlowersBEWebApi.Repositories.Orders;
 using FlowersBEWebApi.Services.Orders;
@@ -15,7 +18,7 @@ namespace FlowersBEWebApi
 {
     public static class ObjectContainer
     {
-        private static Container _container;
+        public static Container _container;
 
         public static void Init(WebApplicationBuilder builder)
         {
@@ -28,6 +31,7 @@ namespace FlowersBEWebApi
             });
 
             var connectionString = builder.Configuration.GetConnectionString("Fullmaximum");
+
             _container.Register(() =>
             {
                 var options = new DbContextOptionsBuilder<DataContext>();
@@ -36,6 +40,9 @@ namespace FlowersBEWebApi
             }, Lifestyle.Scoped);
 
             RegisterServices();
+
+            builder.Services.AddTransient<JwtMiddleware>();
+
         }
 
         public static void VerifyApp(WebApplication application, Logger logger)
@@ -55,10 +62,12 @@ namespace FlowersBEWebApi
 
         public static void RegisterServices()
         {
+
             //Repositories
             _container.Register<IBasicRepository, BasicRepository>(Lifestyle.Scoped);
             _container.Register<IShopRepository, ShopRepository>(Lifestyle.Scoped);
             _container.Register<IFlowerRepository, FlowersRepository>(Lifestyle.Scoped);
+            _container.Register<IUserRepository, UserRepository>(Lifestyle.Scoped);
             _container.Register<IOrdersRepository, OrdersRepository>(Lifestyle.Scoped);
             _container.Register<IOrderItemsRepository, OrderItemsRepository>(Lifestyle.Scoped);
 
@@ -66,6 +75,8 @@ namespace FlowersBEWebApi
             _container.Register<IBasicService, BasicService>(Lifestyle.Scoped);
             _container.Register<IShopService, ShopService>(Lifestyle.Scoped);
             _container.Register<IFlowersService, FlowersService>(Lifestyle.Scoped);
+            _container.Register<IUserService, UserService>(Lifestyle.Scoped);
+
             _container.Register<IOrderItemsService, OrderItemsService>(Lifestyle.Scoped);
             _container.Register<IOrdersService, OrdersService>(Lifestyle.Scoped);
 

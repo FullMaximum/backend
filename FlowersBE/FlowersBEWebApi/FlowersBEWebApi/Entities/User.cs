@@ -3,12 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace FlowersBEWebApi.Entities
 {
-    public class UserBase
+    public class User
     {
         [ConcurrencyCheck]
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public string? Username { get; set; }
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
         public DateTime BirthDate { get; set; }
