@@ -27,5 +27,7 @@ namespace FlowersBEWebApi.Data
         public DbSet<User>? AppUsers { get; set; }
         public DbSet<Flower>? Flowers { get; set; }
         public DbSet<Shop>? Shops { get; set; }
+        public DbSet<Order>? Orders { get; set; }
+        public DbSet<OrderItem>? OrderItems { get; set; }
     }
 }

@@ -10,6 +10,9 @@ using Serilog.Core;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 using FlowersBEWebApi.Middleware;
+using FlowersBEWebApi.Mappers.Orders;
+using FlowersBEWebApi.Repositories.Orders;
+using FlowersBEWebApi.Services.Orders;
 
 namespace FlowersBEWebApi
 {
@@ -65,6 +68,8 @@ namespace FlowersBEWebApi
             _container.Register<IShopRepository, ShopRepository>(Lifestyle.Scoped);
             _container.Register<IFlowerRepository, FlowersRepository>(Lifestyle.Scoped);
             _container.Register<IUserRepository, UserRepository>(Lifestyle.Scoped);
+            _container.Register<IOrdersRepository, OrdersRepository>(Lifestyle.Scoped);
+            _container.Register<IOrderItemsRepository, OrderItemsRepository>(Lifestyle.Scoped);
 
             //Services
             _container.Register<IBasicService, BasicService>(Lifestyle.Scoped);
@@ -72,6 +77,12 @@ namespace FlowersBEWebApi
             _container.Register<IFlowersService, FlowersService>(Lifestyle.Scoped);
             _container.Register<IUserService, UserService>(Lifestyle.Scoped);
 
+            _container.Register<IOrderItemsService, OrderItemsService>(Lifestyle.Scoped);
+            _container.Register<IOrdersService, OrdersService>(Lifestyle.Scoped);
+
+            //Mappers
+            _container.Register<IOrderMapper, OrderMapper>(Lifestyle.Scoped);
+            _container.Register<IOrderItemMapper, OrderItemMapper>(Lifestyle.Scoped);
         }
 
         public static T GetInstance<T>() where T : class
