@@ -11,5 +11,6 @@ namespace FlowersBEWebApi.Repositories.Orders
         public Order GetById(int id);
         public List<Order> GetByUserId(int userId);
         public List<Order> GetByShopId(int shopId);
+        public bool CheckIfExists(int id);
     }
 }

@@ -47,5 +47,10 @@ namespace FlowersBEWebApi.Repositories.Orders
         {
             return _dataContext.Orders.Where(order => shopId == order.ShopId).ToList();
         }
+
+        public bool CheckIfExists(int id)
+        {
+            return _dataContext.Orders.Any(x => x.Id == id);
+        }
     }
 }
