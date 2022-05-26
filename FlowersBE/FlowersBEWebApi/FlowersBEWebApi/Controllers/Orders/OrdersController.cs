@@ -19,7 +19,7 @@ namespace FlowersBEWebApi.Controllers.Orders
         }
 
         //[Authorize]
-        [HttpPost("/add")]
+        [HttpPost("add")]
         public async Task<ActionResult<BaseResult>> Create(OrderModel model)
         {
             try
@@ -63,6 +63,23 @@ namespace FlowersBEWebApi.Controllers.Orders
             catch (Exception ex)
             {
                 _logger.LogError($"[{nameof(OrdersController)}] {nameof(GetByUserId)} (Id: {userId}): {ex}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost("update/{id}")]
+        public async Task<ActionResult> Update(OrderModel model, int id)
+        {
+            try
+            {
+                _logger.LogInformation($"[{nameof(OrdersController)}] {nameof(Update)} (Id: {id}, {model.ToString()})");
+                model.Id = id;
+                var res = _service.UpdateOrder(model);
+                return StatusCode(res.StatusCode, res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{nameof(OrdersController)}] {nameof(Update)} (Id: {id}, {model.ToString()}): ({ex})");
                 return StatusCode(500);
             }
         }

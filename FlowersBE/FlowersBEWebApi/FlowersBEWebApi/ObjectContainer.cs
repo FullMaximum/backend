@@ -13,6 +13,7 @@ using FlowersBEWebApi.Middleware;
 using FlowersBEWebApi.Mappers.Orders;
 using FlowersBEWebApi.Repositories.Orders;
 using FlowersBEWebApi.Services.Orders;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace FlowersBEWebApi
 {
@@ -39,10 +40,9 @@ namespace FlowersBEWebApi
                 return new DataContext(options.Options, builder.Configuration);
             }, Lifestyle.Scoped);
 
-            RegisterServices();
+            RegisterServices(builder);
 
             builder.Services.AddTransient<JwtMiddleware>();
-
         }
 
         public static void VerifyApp(WebApplication application, Logger logger)
@@ -60,7 +60,7 @@ namespace FlowersBEWebApi
             }
         }
 
-        public static void RegisterServices()
+        public static void RegisterServices(WebApplicationBuilder builder)
         {
 
             //Repositories
@@ -79,6 +79,13 @@ namespace FlowersBEWebApi
 
             _container.Register<IOrderItemsService, OrderItemsService>(Lifestyle.Scoped);
             _container.Register<IOrdersService, OrdersService>(Lifestyle.Scoped);
+            if (Convert.ToBoolean(builder.Configuration["EnableCaching"]))
+            {
+                _container.Register<IMemoryCache>(() => new MemoryCache(new MemoryCacheOptions()), Lifestyle.Singleton);
+                _container.RegisterDecorator<IFlowersService, FlowersServiceCachingDecorator>(Lifestyle.Scoped);
+                _container.RegisterDecorator<IOrdersService, OrdersServiceCachingDecorator>(Lifestyle.Scoped);
+            }
+                
 
             //Mappers
             _container.Register<IOrderMapper, OrderMapper>(Lifestyle.Scoped);
