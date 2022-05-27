@@ -3,6 +3,7 @@ using FlowersBEWebApi.Entities;
 using FlowersBEWebApi.Mappers.Orders;
 using FlowersBEWebApi.Models;
 using FlowersBEWebApi.Repositories.Orders;
+using FlowersBEWebApi.Enums;
 
 namespace FlowersBEWebApi.Services.Orders
 {
@@ -133,9 +134,28 @@ namespace FlowersBEWebApi.Services.Orders
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[{nameof(OrdersService)}] {nameof(GetByUserId)} (Order: {model.ToString()}): {ex}");
+                _logger.LogError($"[{nameof(OrdersService)}] {nameof(UpdateOrder)} (Order: {model.ToString()}): {ex}");
                 return new BaseResult(false, 500, "Internal Server error");
             }
+        }
+
+        public BaseResult SimulateOrder(int orderId)
+        {
+            Order order = _ordersRepository.GetById(orderId);
+
+            int status = (int)order.Status;
+
+            if (status >= 4)
+            {
+                return new BaseResult(false, 400, "Order status is at max value");
+            }
+
+            order.Status = (OrderStatus)status + 1;
+
+            _ordersRepository.Update(order);
+            _context.SaveChanges();
+
+            return new BaseResult(true, 200);
         }
 
         private BaseResult LinkOrderItems(List<Item> items, int orderId)

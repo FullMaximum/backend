@@ -56,7 +56,7 @@ namespace FlowersBEWebApi.Services.Orders
             {
                 OrderModel order = null;
                 var cacheKey = $"order_id_{id}";
-                if (_memoryCache.TryGetValue(cacheKey, out order))
+                if (!_memoryCache.TryGetValue(cacheKey, out order))
                 {
                     order = _mapper.Map(_ordersRepository.GetById(id));
                     if (order is null)
@@ -183,6 +183,11 @@ namespace FlowersBEWebApi.Services.Orders
                 });
             }
             return _orderItemsService.InsertBulk(orderItems);
+        }
+
+        public BaseResult SimulateOrder(int orderId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -83,5 +83,22 @@ namespace FlowersBEWebApi.Controllers.Orders
                 return StatusCode(500);
             }
         }
+
+        [HttpPost("simulate/{id}")]
+        public async Task<ActionResult> Simulate(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"[{nameof(OrdersController)}] {nameof(Simulate)} (Id: {id})");
+
+                var res = _service.SimulateOrder(id);
+                return StatusCode(res.StatusCode, res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{nameof(OrdersController)}] {nameof(Update)} (Id: {id}): ({ex})");
+                return StatusCode(500);
+            }
+        }
     }
 }
