@@ -79,13 +79,13 @@ namespace FlowersBEWebApi
 
             _container.Register<IOrderItemsService, OrderItemsService>(Lifestyle.Scoped);
             _container.Register<IOrdersService, OrdersService>(Lifestyle.Scoped);
+
             if (Convert.ToBoolean(builder.Configuration["EnableCaching"]))
             {
                 _container.Register<IMemoryCache>(() => new MemoryCache(new MemoryCacheOptions()), Lifestyle.Singleton);
                 _container.RegisterDecorator<IFlowersService, FlowersServiceCachingDecorator>(Lifestyle.Scoped);
                 _container.RegisterDecorator<IOrdersService, OrdersServiceCachingDecorator>(Lifestyle.Scoped);
             }
-                
 
             //Mappers
             _container.Register<IOrderMapper, OrderMapper>(Lifestyle.Scoped);

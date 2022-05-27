@@ -3,6 +3,7 @@ using FlowersBEWebApi.Entities;
 using FlowersBEWebApi.Mappers.Orders;
 using FlowersBEWebApi.Models;
 using FlowersBEWebApi.Repositories.Orders;
+using FlowersBEWebApi.Enums;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace FlowersBEWebApi.Services.Orders
@@ -56,7 +57,7 @@ namespace FlowersBEWebApi.Services.Orders
             {
                 OrderModel order = null;
                 var cacheKey = $"order_id_{id}";
-                if (_memoryCache.TryGetValue(cacheKey, out order))
+                if (!_memoryCache.TryGetValue(cacheKey, out order))
                 {
                     order = _mapper.Map(_ordersRepository.GetById(id));
                     if (order is null)
@@ -183,6 +184,25 @@ namespace FlowersBEWebApi.Services.Orders
                 });
             }
             return _orderItemsService.InsertBulk(orderItems);
+        }
+
+        public BaseResult SimulateOrder(int orderId)
+        {
+            Order order = _ordersRepository.GetById(orderId);
+
+            int status = (int)order.Status;
+
+            if (status >= 4)
+            {
+                return new BaseResult(false, 400, "Order status is at max value");
+            }
+
+            order.Status = (OrderStatus)status + 1;
+
+            _ordersRepository.Update(order);
+            _context.SaveChanges();
+
+            return new BaseResult(true, 200);
         }
     }
 }
